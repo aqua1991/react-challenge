@@ -9,7 +9,6 @@ interface Props {
 }
 
 const UserList: FC<Props> = ({ users = [], selectedIds = [], onSelect}) => {
-  console.log('>>>>', selectedIds);
   return (
     <div className="UserList">
       {
