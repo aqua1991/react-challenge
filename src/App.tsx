@@ -1,9 +1,12 @@
 import React from 'react';
+import {useUsers} from './hooks';
 import logo from './logo.svg';
 import './App.css';
 import UserList from './UserList';
 
 function App() {
+  let userResponse = useUsers();
+  console.log('123', userResponse)
   return (
     <div className="App">
       <header className="App-header">
@@ -15,7 +18,7 @@ function App() {
         </p>
 
         {/* TODO: Fill in the list of users with useUsers hook */}
-        <UserList users={[]} />
+        <UserList users={userResponse.users} />
         
         <p>
           {/* TODO: 
