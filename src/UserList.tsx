@@ -5,7 +5,7 @@ import './UserList.css';
 interface Props {
   users?: User[];
   selectedIds?: string[];
-  onSelect?: (id: string) => void
+  onSelect?: (ids: string[]) => void
 }
 
 const UserList: FC<Props> = ({ users = [], selectedIds = [], onSelect}) => {
@@ -14,12 +14,21 @@ const UserList: FC<Props> = ({ users = [], selectedIds = [], onSelect}) => {
       {
         users.map((user) => {
           return (
-            <label key={user.id}>
+            <label key={user.id} data-testid={`userlist-${user.id}`}>
               <input
                 type="checkbox"
                 checked={selectedIds.indexOf(user.id) >=0 ? true : false}
-                onChange={() => onSelect ? onSelect(user.id) : {}}
-              />
+                onChange={() => {
+                  if (onSelect) {
+                    let curIds = [...selectedIds];
+                    if (curIds.indexOf(user.id) >= 0) {
+                      curIds.splice(curIds.indexOf(user.id), 1);
+                    } else {
+                      curIds.push(user.id);
+                    }
+                    onSelect(curIds);
+                  }}}
+                />
               {user.firstName} {user.lastName}
             </label>
           );

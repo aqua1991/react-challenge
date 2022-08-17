@@ -18,9 +18,7 @@ it("renders the specified users", () => {
 
   mock_users.forEach((user) => {
     // TODO: find the element for that user
-    //  see https://testing-library.com/docs/queries/about
-    const element = null;
-
+    const element = screen.getByTestId(`userlist-${user.id}`);
     expect(element).toBeInTheDocument();
   });
 });
@@ -31,13 +29,18 @@ it("renders the selected users as checked and only them", () => {
   render(<UserList users={mock_users} selectedIds={selectedIds} />);
 
   mock_users.forEach((user) => {
+    
     // TODO: find the checkbox for that user
-    //  see https://testing-library.com/docs/queries/about
-    const checkbox = null;
+    const checkbox = screen.getByTestId(`userlist-${user.id}`).getElementsByTagName('input')[0];
     
     // TODO: expect the checkbox to be checked or not
-    //  see: https://github.com/testing-library/jest-dom#custom-matchers
-    //expect(checkbox)...;
+    if(selectedIds.indexOf(user.id) >= 0)
+    {
+      expect(checkbox).toHaveProperty("checked", true);
+    } else {
+      expect(checkbox).toHaveProperty("checked", false);
+    }
+      
   });
 });
 
@@ -48,9 +51,7 @@ it("fires the onSelect event when a user is checked", () => {
   render(<UserList users={mock_users} selectedIds={selectedIds} onSelect={onSelect} />);
 
   // TODO: find the checkbox for user with ID "2" and click it
-  //  see https://testing-library.com/docs/queries/about
-  //  see https://testing-library.com/docs/ecosystem-user-event/
   const checkbox = null;
-
+  userEvent.click(screen.getByTestId(`userlist-2`).getElementsByTagName('input')[0]);
   expect(onSelect).toHaveBeenNthCalledWith(1, ["1", "2"]);
 });

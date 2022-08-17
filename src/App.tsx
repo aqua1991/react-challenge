@@ -10,14 +10,8 @@ function App() {
   const users = userResponse.users;
   const [selectedIds, setSelectedIds] = useState<string[]>([]);
 
-  const onSelect = (id: string) => {
-    let curIds = [...selectedIds];
-    if (curIds.indexOf(id) >= 0) {
-      curIds.splice(curIds.indexOf(id), 1);
-    } else {
-      curIds.push(id);
-    }
-    setSelectedIds(curIds);
+  const onSelect = (ids: string[]) => {
+    setSelectedIds(ids);
   }
 
   return (
