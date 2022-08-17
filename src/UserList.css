@@ -17,3 +17,6 @@
   border-radius: .75vmin;
   border: .5vmin solid transparent;
 }
+.UserList label {
+  display: block;
+}

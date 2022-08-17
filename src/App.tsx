@@ -1,12 +1,25 @@
 import React from 'react';
+import { useState } from "react";
 import {useUsers} from './hooks';
 import logo from './logo.svg';
 import './App.css';
 import UserList from './UserList';
 
 function App() {
-  let userResponse = useUsers();
-  console.log('123', userResponse)
+  const userResponse = useUsers();
+  const users = userResponse.users;
+  const [selectedIds, setSelectedIds] = useState<string[]>([]);
+
+  const onSelect = (id: string) => {
+    let curIds = [...selectedIds];
+    if (curIds.indexOf(id) >= 0) {
+      curIds.splice(curIds.indexOf(id), 1);
+    } else {
+      curIds.push(id);
+    }
+    setSelectedIds(curIds);
+  }
+
   return (
     <div className="App">
       <header className="App-header">
@@ -18,15 +31,13 @@ function App() {
         </p>
 
         {/* TODO: Fill in the list of users with useUsers hook */}
-        <UserList users={userResponse.users} />
-        
+        <UserList users={users} selectedIds={selectedIds} onSelect={onSelect}/>
         <p>
-          {/* TODO: 
-            When users are selected, display a greeting with their first name 
-            
-            eg: 👋 Well, hello Richard, Dinesh!
-
-          */}
+          👋 Well, hello {users.map((user)=> {
+            if(selectedIds.indexOf(user.id) >= 0) {
+              return user.firstName + ',';
+            }
+          })} !
         </p>
       </main>
     </div>

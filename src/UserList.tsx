@@ -5,13 +5,27 @@ import './UserList.css';
 interface Props {
   users?: User[];
   selectedIds?: string[];
-  onSelect?: (ids: string[]) => void
+  onSelect?: (id: string) => void
 }
 
 const UserList: FC<Props> = ({ users = [], selectedIds = [], onSelect}) => {
+  console.log('>>>>', selectedIds);
   return (
     <div className="UserList">
-      {/* TODO: render list of users with checkboxes */}
+      {
+        users.map((user) => {
+          return (
+            <label key={user.id}>
+              <input
+                type="checkbox"
+                checked={selectedIds.indexOf(user.id) >=0 ? true : false}
+                onChange={() => onSelect ? onSelect(user.id) : {}}
+              />
+              {user.firstName} {user.lastName}
+            </label>
+          );
+        })
+      }
     </div>
   );
 };
